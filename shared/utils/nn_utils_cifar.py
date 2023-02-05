@@ -13,6 +13,37 @@ from .augment import Augment, Cutout
 from .config_utils import cfg, logger
 from .nn_utils import get_transform, normalization_kwargs_dict
 
+# Long tail distribution of CIFAR10
+class CIFAR10_LT(datasets.CIFAR10):
+
+    def __init__(self, root, indexs=None, train=True,
+                 transform=None, target_transform=None,
+                 download=False):
+        super(CIFAR10_LT, self).__init__(root, train=train,
+                 transform=transform, target_transform=target_transform,
+                 download=download)
+        if indexs is not None:
+            self.data = self.data[indexs]
+            self.targets = np.array(self.targets)[indexs]
+        self.data = [Image.fromarray(img) for img in self.data]
+
+    def __getitem__(self, index):
+        """
+        Args:
+            index (int): Index
+        Returns:
+            tuple: (image, target) where target is index of the target class.
+        """
+        img, target = self.data[index], self.targets[index]
+
+        if self.transform is not None:
+            img = self.transform(img)
+
+        if self.target_transform is not None:
+            target = self.target_transform(target)
+
+        return img, target, index
+
 def get_sample_info_cifar(chosen_sample_num):
     num_centroids = chosen_sample_num
     final_sample_num = chosen_sample_num
@@ -228,3 +259,5 @@ def train_memory_cifar(root_dir, cifar100, transform_name, batch_size=128, worke
         return train_memory_dataset, train_memory_loader, val_memory_dataset, val_memory_loader
     else:
         return train_memory_dataset, train_memory_loader
+    
+
