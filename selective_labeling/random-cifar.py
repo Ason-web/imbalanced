@@ -7,6 +7,7 @@ import utils
 import models.resnet_cifar_cld as resnet_cifar_cld
 import torch
 import numpy as np
+from utils.dataTools import createImbIdxs
 
 utils.init(default_config_file="configs/cifar10_random.yaml")
 
