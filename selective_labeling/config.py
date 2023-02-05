@@ -1,11 +1,6 @@
 import os
 from yacs.config import CfgNode as CN
 
-# imbalance 
-_C.GAMMA = 1
-_C.MAX_NUM = 5000
-_C.CLASS_NUM = 10
-
 mode = os.environ["USL_MODE"]
 
 _C = CN()
@@ -21,6 +16,11 @@ _C.OPTS_IN_RUN_NAME = False
 _C.RECOMPUTE_ALL = True
 # Set to True to recompute NUM_SELECTED_SAMPLES dependent steps such as k-Means and selection even if RECOMPUTE_ALL is False
 _C.RECOMPUTE_NUM_DEP = True
+
+# imbalance 
+_C.GAMMA = 1
+_C.MAX_NUM = 5000
+_C.CLASS_NUM = 10
 
 _C.DATASET = CN()
 _C.DATASET.NAME = ''
