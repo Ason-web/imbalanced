@@ -24,9 +24,6 @@ train_memory_dataset, train_memory_loader = utils.train_memory_cifar(
     batch_size=cfg.DATALOADER.BATCH_SIZE,
     workers=cfg.DATALOADER.WORKERS, transform_name=cfg.DATASET.TRANSFORM_NAME, cifar100=cifar100)
 
-targets = torch.tensor(train_memory_dataset.targets)
-targets.shape
-
 ## 对train_memory_dataset进行更改，改为imbalanced的
 
 sample_db = utils.make_imb_data(cfg.MAX_NUM, cfg.CLASS_NUM, cfg.GAMMA)
