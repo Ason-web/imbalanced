@@ -13,7 +13,6 @@ from .augment import Augment, Cutout
 from .config_utils import cfg, logger
 from .nn_utils import get_transform, normalization_kwargs_dict
 
-# Long tail distribution of CIFAR10
 class CIFAR10_LT(datasets.CIFAR10):
 
     def __init__(self, root, indexs=None, train=True,
@@ -31,18 +30,11 @@ class CIFAR10_LT(datasets.CIFAR10):
         """
         Args:
             index (int): Index
+
         Returns:
             tuple: (image, target) where target is index of the target class.
         """
         img, target = self.data[index], self.targets[index]
-
-        if self.transform is not None:
-            img = self.transform(img)
-
-        if self.target_transform is not None:
-            target = self.target_transform(target)
-
-        return img, target, index
 
 def get_sample_info_cifar(chosen_sample_num):
     num_centroids = chosen_sample_num
