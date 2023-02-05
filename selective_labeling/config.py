@@ -1,6 +1,11 @@
 import os
 from yacs.config import CfgNode as CN
 
+# imbalance 
+_C.GAMMA = 1
+_C.MAX_NUM = 5000
+_C.CLASS_NUM = 10
+
 mode = os.environ["USL_MODE"]
 
 _C = CN()
