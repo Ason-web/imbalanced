@@ -27,6 +27,19 @@ train_memory_dataset, train_memory_loader = utils.train_memory_cifar(
 targets = torch.tensor(train_memory_dataset.targets)
 targets.shape
 
+## 对train_memory_dataset进行更改，改为imbalanced的
+
+sample_db = utils.make_imb_data(cfg.MAX_NUM, cfg.CLASS_NUM, cfg.GAMMA)
+imb_idxs = utils.createImbIdxs(train_memory_dataset.targets, sample_db)
+
+train_memory_dataset = utils.CIFAR10_LT(root=cfg.DATASET.ROOT_DIR, indexs=imb_idxs)
+train_memory_loader = torch.utils.data.DataLoader(
+    train_memory_dataset, batch_size=cfg.DATALOADER.BATCH_SIZE, shuffle=False,
+    num_workers=cfg.DATALOADER.WORKERS, pin_memory=True, drop_last=False)
+
+targets = torch.tensor(train_memory_dataset.targets)
+targets.shape
+
 # %%
 def get_selection_fn(data_len, seed, final_sample_num):
     np.random.seed(seed)
