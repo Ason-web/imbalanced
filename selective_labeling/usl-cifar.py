@@ -34,6 +34,14 @@ train_memory_dataset, train_memory_loader = utils.train_memory_cifar(
     batch_size=cfg.DATALOADER.BATCH_SIZE,
     workers=cfg.DATALOADER.WORKERS, transform_name=cfg.DATASET.TRANSFORM_NAME, cifar100=cifar100)
 
+sample_db = utils.make_imb_data(cfg.MAX_NUM, cfg.CLASS_NUM, cfg.GAMMA)
+imb_idxs = utils.createImbIdxs(train_memory_dataset.targets, sample_db)
+
+train_memory_dataset = utils.CIFAR10_LT(root=cfg.DATASET.ROOT_DIR, indexs=imb_idxs)
+train_memory_loader = torch.utils.data.DataLoader(
+    train_memory_dataset, batch_size=cfg.DATALOADER.BATCH_SIZE, shuffle=False,
+    num_workers=cfg.DATALOADER.WORKERS, pin_memory=True, drop_last=False)
+
 targets = torch.tensor(train_memory_dataset.targets)
 targets.shape
 
