@@ -3,7 +3,7 @@ RUN_NAME: 'cifar10_usl'
 SKIP_SAVE: False
 RECOMPUTE_ALL: True
 RECOMPUTE_NUM_DEP: True
-GAMMA: 10
+GAMMA: 1
 
 DATASET:
   NAME: 'cifar10'
