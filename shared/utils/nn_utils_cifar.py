@@ -19,7 +19,7 @@ class CIFAR10_LT(datasets.CIFAR10):
                  transform=None, target_transform=None,
                  download=False):
         super(CIFAR10_LT, self).__init__(root, train=train,
-                 transform=transform.ToTensor(), target_transform=target_transform.ToTensor(),
+                 transform=transform, target_transform=target_transform,
                  download=download)
         if indexs is not None:
             self.data = self.data[indexs]
@@ -41,6 +41,8 @@ class CIFAR10_LT(datasets.CIFAR10):
 
         if self.target_transform is not None:
             target = self.target_transform(target)
+
+        return img, target, index
 
 
 def get_sample_info_cifar(chosen_sample_num):
@@ -255,8 +257,8 @@ def train_memory_cifar(root_dir, cifar100, transform_name, batch_size=128, worke
         val_memory_loader = torch.utils.data.DataLoader(
             val_memory_dataset, batch_size=batch_size, shuffle=False,
             num_workers=workers, pin_memory=True, drop_last=False)
-        return train_memory_dataset, train_memory_loader, val_memory_dataset, val_memory_loader
+        return train_memory_dataset, train_memory_loader, val_memory_dataset, val_memory_loader, transform_test
     else:
-        return train_memory_dataset, train_memory_loader
+        return train_memory_dataset, train_memory_loader, transform_test
     
 
