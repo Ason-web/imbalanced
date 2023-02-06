@@ -15,7 +15,7 @@ from .nn_utils import get_transform, normalization_kwargs_dict
 from .dataTools import createImbIdxs, checkReverseDistb, make_imb_data
 
 transform_init = transforms.Compose([
-    # you can add other transformations in this list
+    transforms.ToPILImage(),
     transforms.ToTensor()
 ])
 
