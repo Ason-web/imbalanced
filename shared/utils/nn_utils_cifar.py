@@ -29,7 +29,7 @@ class CIFAR10_LT(datasets.CIFAR10):
         if indexs is not None:
             self.data = self.data[indexs]
             self.targets = np.array(self.targets)[indexs]
-        self.data = [Image.fromarray(img) for img in self.data]
+        # self.data = [Image.fromarray(img) for img in self.data]
 
     def __getitem__(self, index):
         """
