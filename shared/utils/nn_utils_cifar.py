@@ -35,6 +35,14 @@ class CIFAR10_LT(datasets.CIFAR10):
             tuple: (image, target) where target is index of the target class.
         """
         img, target = self.data[index], self.targets[index]
+        
+        if self.transform is not None:
+            img = self.transform(img)
+
+        if self.target_transform is not None:
+            target = self.target_transform(target)
+
+        return img, target, index
 
 def get_sample_info_cifar(chosen_sample_num):
     num_centroids = chosen_sample_num
