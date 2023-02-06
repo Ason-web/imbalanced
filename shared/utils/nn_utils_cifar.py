@@ -12,6 +12,7 @@ from tqdm import tqdm
 from .augment import Augment, Cutout
 from .config_utils import cfg, logger
 from .nn_utils import get_transform, normalization_kwargs_dict
+from .dataTools import createImbIdxs, checkReverseDistb, make_imb_data
 
 class CIFAR10_LT(datasets.CIFAR10):
 
@@ -257,8 +258,48 @@ def train_memory_cifar(root_dir, cifar100, transform_name, batch_size=128, worke
         val_memory_loader = torch.utils.data.DataLoader(
             val_memory_dataset, batch_size=batch_size, shuffle=False,
             num_workers=workers, pin_memory=True, drop_last=False)
-        return train_memory_dataset, train_memory_loader, val_memory_dataset, val_memory_loader, transform_test
+        return train_memory_dataset, train_memory_loader, val_memory_dataset, val_memory_loader
     else:
-        return train_memory_dataset, train_memory_loader, transform_test
+        return train_memory_dataset, train_memory_loader
     
 
+def train_memory_cifar_LT(root_dir, cifar100, transform_name, batch_size=128, workers=2, with_val=False, max_num=5000, class_num=10, gamma=1):
+    # Note that CLD uses the same normalization for CIFAR 10 and CIFAR 100
+
+    transform_test = get_transform(transform_name)
+
+    if cifar100:
+        train_memory_dataset = datasets.CIFAR100(root=root_dir, train=True,
+                                                 download=True, transform=transform_test)
+
+        if with_val:
+            val_memory_dataset = datasets.CIFAR100(root=root_dir, train=False,
+                                                   download=True, transform=transform_test)
+    else:
+        train_memory_dataset = datasets.CIFAR10(root=root_dir, train=True,
+                                                download=True, transform=transform_test)
+
+        sample_db = make_imb_data(max_num, class_num, gamma)
+        imb_idxs = createImbIdxs(train_memory_dataset.targets, sample_db)
+        train_memory_dataset = CIFAR10_LT(root=cfg.DATASET.ROOT_DIR, indexs=imb_idxs)
+
+        if with_val:
+            val_memory_dataset = datasets.CIFAR10(root=root_dir, train=False,
+                                                  download=True, transform=transform_test)
+
+            sample_db = make_imb_data(max_num, class_num, gamma)
+            imb_idxs = createImbIdxs(train_memory_dataset.targets, sample_db)
+
+            train_memory_dataset = CIFAR10_LT(root=cfg.DATASET.ROOT_DIR, indexs=imb_idxs)
+
+    train_memory_loader = torch.utils.data.DataLoader(
+        train_memory_dataset, batch_size=batch_size, shuffle=False,
+        num_workers=workers, pin_memory=True, drop_last=False)
+
+    if with_val:
+        val_memory_loader = torch.utils.data.DataLoader(
+            val_memory_dataset, batch_size=batch_size, shuffle=False,
+            num_workers=workers, pin_memory=True, drop_last=False)
+        return train_memory_dataset, train_memory_loader, val_memory_dataset, val_memory_loader
+    else:
+        return train_memory_dataset, train_memory_loader
