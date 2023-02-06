@@ -42,7 +42,6 @@ train_memory_loader = torch.utils.data.DataLoader(
     train_memory_dataset, batch_size=cfg.DATALOADER.BATCH_SIZE, shuffle=False,
     num_workers=cfg.DATALOADER.WORKERS, pin_memory=True, drop_last=False)
 
-train_memory_dataset = torch.tensor(train_memory_dataset)
 targets = torch.tensor(train_memory_dataset.targets)
 targets.shape
 
