@@ -29,7 +29,7 @@ class CIFAR10_LT(datasets.CIFAR10):
         if indexs is not None:
             self.data = self.data[indexs]
             self.targets = np.array(self.targets)[indexs]
-        # self.data = [Image.fromarray(img) for img in self.data]
+        self.data = [Image.fromarray(img) for img in self.data]
 
     def __getitem__(self, index):
         """
@@ -47,7 +47,7 @@ class CIFAR10_LT(datasets.CIFAR10):
         if self.target_transform is not None:
             target = self.target_transform(target)
 
-        return img, target, index
+        return img, target
 
 
 def get_sample_info_cifar(chosen_sample_num):
