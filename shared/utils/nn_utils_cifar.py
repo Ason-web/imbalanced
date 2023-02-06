@@ -21,10 +21,10 @@ transform_init = transforms.Compose([
 class CIFAR10_LT(datasets.CIFAR10):
 
     def __init__(self, root, indexs=None, train=True,
-                 transform=transform_init, target_transform=transform_init,
+                 transform=transform_init, 
                  download=False):
         super(CIFAR10_LT, self).__init__(root, train=train,
-                 transform=transform, target_transform=target_transform,
+                 transform=transform, 
                  download=download)
         if indexs is not None:
             self.data = self.data[indexs]
