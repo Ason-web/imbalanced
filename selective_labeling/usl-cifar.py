@@ -29,10 +29,20 @@ assert cfg.DATASET.NAME in [
 cifar100 = cfg.DATASET.NAME == "cifar100"
 num_classes = 100 if cifar100 else 10
 
-train_memory_dataset, train_memory_loader= utils.train_memory_cifar_LT(
+train_memory_dataset, train_memory_loader = utils.train_memory_cifar(
     root_dir=cfg.DATASET.ROOT_DIR,
     batch_size=cfg.DATALOADER.BATCH_SIZE,
-    workers=cfg.DATALOADER.WORKERS, transform_name=cfg.DATASET.TRANSFORM_NAME, cifar100=cifar100, max_num=cfg.MAX_NUM, class_num=cfg.CLASS_NUM, gamma=cfg.GAMMA)
+    workers=cfg.DATALOADER.WORKERS, transform_name=cfg.DATASET.TRANSFORM_NAME, cifar100=cifar100)
+
+## 对train_memory_dataset进行更改，改为imbalanced的
+
+sample_db = utils.make_imb_data(cfg.MAX_NUM, cfg.CLASS_NUM, cfg.GAMMA)
+imb_idxs = utils.createImbIdxs(train_memory_dataset.targets, sample_db)
+
+train_memory_dataset = utils.CIFAR10_LT(root=cfg.DATASET.ROOT_DIR, indexs=imb_idxs)
+train_memory_loader = torch.utils.data.DataLoader(
+    train_memory_dataset, batch_size=cfg.DATALOADER.BATCH_SIZE, shuffle=False,
+    num_workers=cfg.DATALOADER.WORKERS, pin_memory=True, drop_last=False)
 
 targets = torch.tensor(train_memory_dataset.targets)
 targets.shape
