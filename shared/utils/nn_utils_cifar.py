@@ -16,8 +16,10 @@ from .nn_utils import get_transform, normalization_kwargs_dict
 class CIFAR10_LT(datasets.CIFAR10):
 
     def __init__(self, root, indexs=None, train=True,
+                 transform=None, target_transform=None,
                  download=False):
         super(CIFAR10_LT, self).__init__(root, train=train,
+                 transform=transform.ToTensor(), target_transform=target_transform.ToTensor(),
                  download=download)
         if indexs is not None:
             self.data = self.data[indexs]
@@ -33,7 +35,13 @@ class CIFAR10_LT(datasets.CIFAR10):
             tuple: (image, target) where target is index of the target class.
         """
         img, target = self.data[index], self.targets[index]
-        return img, target, index
+
+        if self.transform is not None:
+            img = self.transform(img)
+
+        if self.target_transform is not None:
+            target = self.target_transform(target)
+
 
 def get_sample_info_cifar(chosen_sample_num):
     num_centroids = chosen_sample_num
