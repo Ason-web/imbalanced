@@ -14,10 +14,15 @@ from .config_utils import cfg, logger
 from .nn_utils import get_transform, normalization_kwargs_dict
 from .dataTools import createImbIdxs, checkReverseDistb, make_imb_data
 
+transform_init = transforms.Compose([
+    # you can add other transformations in this list
+    transforms.ToTensor()
+])
+
 class CIFAR10_LT(datasets.CIFAR10):
 
     def __init__(self, root, indexs=None, train=True,
-                 transform=None, target_transform=None,
+                 transform=transform_init, target_transform=transform_init,
                  download=False):
         super(CIFAR10_LT, self).__init__(root, train=train,
                  transform=transform, target_transform=target_transform,
