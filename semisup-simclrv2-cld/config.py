@@ -43,6 +43,11 @@ _C.OPTIMIZER.WEIGHT_DECAY = 0.0001
 
 _C.EPOCHS = 5
 
+# imbalance 
+_C.GAMMA = 1
+_C.MAX_NUM = 5000
+_C.CLASS_NUM = 10
+
 if mode == "FINETUNE":
     _C.FINETUNE = CN()
     _C.FINETUNE.LABELED_INDICES_PATH = ""
