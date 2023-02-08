@@ -47,7 +47,7 @@ imb_idxs = utils.createImbIdxs(train_memory_dataset.targets, sample_db)
 
 train_dataset_cifar = utils.CIFAR10_LT(root=cfg.DATASET.ROOT_DIR, indexs=imb_idxs)
 
-train_dataset_cifar.data = train_dataset_cifar.data[selected_inds]
+train_dataset_cifar.data = np.array(train_dataset_cifar.data)[selected_inds]
 select_targets = np.array(train_dataset_cifar.targets)[selected_inds]
 train_dataset_cifar.targets = list(select_targets)
 assert len(train_dataset_cifar.data) == len(train_dataset_cifar.targets)
