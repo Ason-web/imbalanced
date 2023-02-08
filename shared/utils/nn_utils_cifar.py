@@ -221,12 +221,9 @@ def train_dataset_cifar(transform_name):
 
     if cfg.DATASET.NAME == "cifar10":
         # Transform is set on the wrapper if load_local_global_dataset is True
-#         train_dataset_cifar = datasets.CIFAR10(
-#             root=cfg.DATASET.ROOT_DIR, train=True, transform=transform_train, download=True)
+        train_dataset_cifar = datasets.CIFAR10(
+            root=cfg.DATASET.ROOT_DIR, train=True, transform=transform_train, download=True)
     
-        sample_db = make_imb_data(cfg.MAX_NUM, cfg.CLASS_NUM, cfg.GAMMA)
-        imb_idxs = createImbIdxs(train_memory_dataset.targets, sample_db)
-
         train_dataset_cifar = CIFAR10_LT(root=cfg.DATASET.ROOT_DIR, indexs=imb_idxs)        
         val_dataset = datasets.CIFAR10(
             root=cfg.DATASET.ROOT_DIR, train=False, transform=transform_val, download=True)
