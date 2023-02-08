@@ -12,6 +12,7 @@ from tqdm import tqdm
 from .augment import Augment, Cutout
 from .config_utils import cfg, logger
 from .nn_utils import get_transform, normalization_kwargs_dict
+from .dataTools import createImbIdxs, make_imb_data
 
 
 transform_init = transforms.Compose([
@@ -223,8 +224,8 @@ def train_dataset_cifar(transform_name):
 #         train_dataset_cifar = datasets.CIFAR10(
 #             root=cfg.DATASET.ROOT_DIR, train=True, transform=transform_train, download=True)
     
-        sample_db = utils.make_imb_data(cfg.MAX_NUM, cfg.CLASS_NUM, cfg.GAMMA)
-        imb_idxs = utils.createImbIdxs(train_memory_dataset.targets, sample_db)
+        sample_db = make_imb_data(cfg.MAX_NUM, cfg.CLASS_NUM, cfg.GAMMA)
+        imb_idxs = createImbIdxs(train_memory_dataset.targets, sample_db)
 
         train_dataset_cifar = CIFAR10_LT(root=cfg.DATASET.ROOT_DIR, indexs=imb_idxs)        
         val_dataset = datasets.CIFAR10(
