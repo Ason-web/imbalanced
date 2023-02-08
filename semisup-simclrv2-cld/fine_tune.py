@@ -35,6 +35,18 @@ if len(selected_inds) <= 40:
 train_dataset_cifar, val_dataset = utils.train_dataset_cifar(
     transform_name=cfg.DATASET.TRANSFORM_NAME)
 
+train_memory_dataset, train_memory_loader = utils.train_memory_cifar(
+    root_dir=cfg.DATASET.ROOT_DIR,
+    batch_size=cfg.DATALOADER.BATCH_SIZE,
+    workers=cfg.DATALOADER.WORKERS, transform_name=cfg.DATASET.TRANSFORM_NAME, cifar100=cifar100)
+
+## 对train_memory_dataset进行更改，改为imbalanced的
+
+sample_db = utils.make_imb_data(cfg.MAX_NUM, cfg.CLASS_NUM, cfg.GAMMA)
+imb_idxs = utils.createImbIdxs(train_memory_dataset.targets, sample_db)
+
+train_dataset_cifar = utils.CIFAR10_LT(root=cfg.DATASET.ROOT_DIR, indexs=imb_idxs)
+
 train_dataset_cifar.data = train_dataset_cifar.data[selected_inds]
 select_targets = np.array(train_dataset_cifar.targets)[selected_inds]
 train_dataset_cifar.targets = list(select_targets)
