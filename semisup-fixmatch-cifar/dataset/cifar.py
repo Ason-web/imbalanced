@@ -134,7 +134,7 @@ def get_labeled_inds(args, labels):
     print(labeled_idx)
     return labeled_idx
 
-def get_cifar10_imbalance(args, root, force_no_expand=False):
+def get_cifar10_imbalanced(args, root, force_no_expand=False):
     transform_labeled = transforms.Compose([
         transforms.RandomHorizontalFlip(),
         transforms.RandomCrop(size=32,
@@ -283,4 +283,5 @@ class CIFAR100SSL(datasets.CIFAR100):
 
 DATASET_GETTERS = {'cifar10': get_cifar10,
                    'cifar100': get_cifar100,
-                   'cifar10_cld_aug': get_cifar10_cld_aug}
+                   'cifar10_cld_aug': get_cifar10_cld_aug
+                   'get_cifar10_imbalanced': get_cifar10_imbalanced}
