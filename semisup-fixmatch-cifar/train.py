@@ -130,11 +130,11 @@ def main():
                         help="For distributed training: local_rank")
     parser.add_argument('--no-progress', action='store_true',
                         help="don't use progress bar")
-    parser.add_argument('--MAX_NUM', type=int, default='',
+    parser.add_argument('--MAX_NUM', type=int, default=5000,
                         help='the most number of samples in a class')
-    parser.add_argument('--CLASS_NUM', type=int, default='',
+    parser.add_argument('--CLASS_NUM', type=int, default=10,
                         help='number of classes')
-    parser.add_argument('--GAMMA', type=float, default='',
+    parser.add_argument('--GAMMA', type=float, default=1,
                         help='the ratio of the most number class to the least number class')
 
     
