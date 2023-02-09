@@ -202,7 +202,7 @@ def main():
         shutil.copyfile(__file__, os.path.join(args.out, 'train_copy.py'))
         args.writer = SummaryWriter(args.out)
 
-    if args.dataset == 'cifar10' or args.dataset == 'cifar10_cld_aug' or args.dataset == 'cifar10_lt':
+    if args.dataset == 'cifar10' or args.dataset == 'cifar10_cld_aug' or args.dataset == 'cifar10_lt' or args.dataset = 'cifar10_imbalanced':
         args.num_classes = 10
         if args.arch == 'wideresnet':
             args.model_depth = 28
