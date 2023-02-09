@@ -134,6 +134,7 @@ def get_labeled_inds(args, labels):
     print(labeled_idx)
     return labeled_idx
 
+# split the index of label and unlabel data
 def x_u_split(args, labels, force_no_expand=False):
     
     labels = np.array(labels)
