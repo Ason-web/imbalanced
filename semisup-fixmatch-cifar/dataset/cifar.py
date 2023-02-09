@@ -284,4 +284,4 @@ class CIFAR100SSL(datasets.CIFAR100):
 DATASET_GETTERS = {'cifar10': get_cifar10,
                    'cifar100': get_cifar100,
                    'cifar10_cld_aug': get_cifar10_cld_aug
-                   'get_cifar10_imbalanced': get_cifar10_imbalanced}
+                   'cifar10_imbalanced': get_cifar10_imbalanced}
