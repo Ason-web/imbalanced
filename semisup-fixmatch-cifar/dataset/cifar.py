@@ -9,6 +9,9 @@ from . import cifar10_inds
 from . import cifar100_inds
 from .randaugment import RandAugmentMC
 
+# building imbalanced dataset
+import utils
+
 logger = logging.getLogger(__name__)
 
 cifar10_mean = (0.4914, 0.4822, 0.4465)
