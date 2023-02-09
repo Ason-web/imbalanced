@@ -72,7 +72,7 @@ def main():
     parser.add_argument('--num-workers', type=int, default=4,
                         help='number of workers')
     parser.add_argument('--dataset', default='cifar10', type=str,
-                        choices=['cifar10', 'cifar10_cld_aug', 'cifar100'],
+                        choices=['cifar10', 'cifar10_cld_aug', 'cifar100','cifar10_imbalanced'],
                         help='dataset name')
     parser.add_argument('--num-labeled', type=int, default=4000,
                         help='number of labeled data')
@@ -132,9 +132,9 @@ def main():
                         help="don't use progress bar")
     parser.add_argument('--MAX_NUM', type=int, default='',
                         help='the most number of samples in a class')
-    parser.add_argument('CLASS_NUM', type=int, default='',
+    parser.add_argument('--CLASS_NUM', type=int, default='',
                         help='number of classes')
-    parser.add_argument('GAMMA', type=float, default='',
+    parser.add_argument('--GAMMA', type=float, default='',
                         help='the ratio of the most number class to the least number class')
 
     
