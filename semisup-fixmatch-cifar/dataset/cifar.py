@@ -134,6 +134,42 @@ def get_labeled_inds(args, labels):
     print(labeled_idx)
     return labeled_idx
 
+def get_cifar10_imbalance(args, root, force_no_expand=False):
+    transform_labeled = transforms.Compose([
+        transforms.RandomHorizontalFlip(),
+        transforms.RandomCrop(size=32,
+                              padding=int(32*0.125),
+                              padding_mode='reflect'),
+        transforms.ToTensor(),
+        transforms.Normalize(mean=cifar10_mean, std=cifar10_std)
+    ])
+    transform_val = transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Normalize(mean=cifar10_mean, std=cifar10_std)
+    ])
+    cifar10_dataset = datasets.CIFAR10(root, train=True, download=True)
+
+    sample_db = utils.make_imb_data(args.MAX_NUM, args.CLASS_NUM, args.GAMMA)
+    imb_idxs = utils.createImbIdxs(cifar10_dataset.targets, sample_db)
+
+    base_dataset = utils.CIFAR10_LT(root=cfg.DATASET.ROOT_DIR, indexs=imb_idxs)
+
+    train_labeled_idxs, train_unlabeled_idxs = x_u_split(
+        args, base_dataset.targets, force_no_expand=force_no_expand)
+
+    train_labeled_dataset = CIFAR10SSL(
+        root, train_labeled_idxs, train=True,
+        transform=transform_labeled)
+
+    train_unlabeled_dataset = CIFAR10SSL(
+        root, train_unlabeled_idxs, train=True,
+        transform=TransformFixMatch(mean=cifar10_mean, std=cifar10_std))
+
+    test_dataset = datasets.CIFAR10(
+        root, train=False, transform=transform_val, download=False)
+
+    return train_labeled_dataset, train_unlabeled_dataset, test_dataset
+
 # split the index of label and unlabel data
 def x_u_split(args, labels, force_no_expand=False):
     
