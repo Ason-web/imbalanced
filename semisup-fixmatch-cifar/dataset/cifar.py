@@ -152,7 +152,7 @@ def get_cifar10_imbalanced(args, root, force_no_expand=False):
     sample_db = utils.make_imb_data(args.MAX_NUM, args.CLASS_NUM, args.GAMMA)
     imb_idxs = utils.createImbIdxs(cifar10_dataset.targets, sample_db)
 
-    base_dataset = utils.CIFAR10_LT(root=cfg.DATASET.ROOT_DIR, indexs=imb_idxs)
+    base_dataset = utils.CIFAR10_LT(root, indexs=imb_idxs)
 
     train_labeled_idxs, train_unlabeled_idxs = x_u_split(
         args, base_dataset.targets, force_no_expand=force_no_expand)
