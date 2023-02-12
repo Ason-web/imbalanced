@@ -107,4 +107,36 @@ def make_imb_data(max_num, class_num, gamma):
         class_num_list.reverse()
     print(class_num_list)
     return list(class_num_list)
+
+class CIFAR10_LT(datasets.CIFAR10):
+
+    def __init__(self, root, indexs=None, train=True,
+                 transform=transform_init, 
+                 download=False):
+        super(CIFAR10_LT, self).__init__(root, train=train,
+                 transform=transform, 
+                 download=download)
+        if indexs is not None:
+            self.data = self.data[indexs]
+            self.targets = np.array(self.targets)[indexs]
+        self.data = [Image.fromarray(img) for img in self.data]
+
+    def __getitem__(self, index):
+        """
+        Args:
+            index (int): Index
+
+        Returns:
+            tuple: (image, target) where target is index of the target class.
+        """
+        img, target = self.data[index], self.targets[index]
+
+        if self.transform is not None:
+            img = self.transform(img)
+
+        if self.target_transform is not None:
+            target = self.target_transform(target)
+
+        return img, target
+
 #%%
