@@ -189,7 +189,7 @@ def x_u_split(args, labels, force_no_expand=False):
         elif args.dataset == "cifar100":
             labeled_idx = cifar100_inds.get_labeled_inds_random(args, labels, args.get_labeled_inds)
     elif "selected" in args.get_labeled_inds:
-        if args.dataset == "cifar10":
+        if args.dataset == "cifar10" or args.dataset == 'cifar10_imbalanced':
             labeled_idx = cifar10_inds.get_labeled_inds_select(args, labels, args.get_labeled_inds)
         elif args.dataset == "cifar100":
             labeled_idx = cifar100_inds.get_labeled_inds_select(args, labels, args.get_labeled_inds)
