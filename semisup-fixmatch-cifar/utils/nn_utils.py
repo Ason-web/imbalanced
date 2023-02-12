@@ -11,8 +11,6 @@ from pykeops.torch import LazyTensor
 from tqdm import tqdm
 from copy import deepcopy
 
-from .config_utils import cfg, logger
-
 # Credit: https://github.com/kekmodel/FixMatch-pytorch
 
 
