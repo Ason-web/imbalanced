@@ -7,6 +7,9 @@ import torch
 #%%
 import numpy as np  # For createImbIdxs() & make_imb_data()
 import torchvision.datasets as datasets
+import torchvision.transforms as transforms
+import numpy as np
+from PIL import Image
 #%%
 
 logger = logging.getLogger(__name__)
@@ -109,6 +112,10 @@ def make_imb_data(max_num, class_num, gamma):
         class_num_list.reverse()
     print(class_num_list)
     return list(class_num_list)
+
+transform_init = transforms.Compose([
+     transforms.ToTensor()
+ ])
 
 class CIFAR10_LT(datasets.CIFAR10):
 
