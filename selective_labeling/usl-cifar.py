@@ -94,4 +94,4 @@ for kMeans_seed in cfg.USL.SEEDS:
     print("Number of selected indices:", len(selected_inds))
     print("Selected IDs:")
     print(repr(selected_inds))
-    print(counts)
+    print(np.array(train_memory_dataset.targets)[selected_inds])
