@@ -14,6 +14,6 @@ MODEL:
   PRETRAIN_PATH: 'pretrained/cifar10_ckpt_epoch_200.pth'
 
 USL:
-  NUM_SELECTED_SAMPLES: 400
+  NUM_SELECTED_SAMPLES: 40
   KNN_K: 400
   SEEDS: [5]
