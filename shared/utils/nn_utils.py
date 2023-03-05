@@ -421,7 +421,7 @@ def get_selection(selection_fn, *args, seed=None, recompute=True, save=True, pas
             selected_inds = selection_fn(*args, **kwargs)
 
         if save:
-            save_npy(save_filename, selected_inds)
+            save_npy(save_filename, selected_inds[0])
     else:
         selected_inds = load_npy(save_filename)
 
