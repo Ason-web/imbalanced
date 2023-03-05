@@ -70,6 +70,7 @@ def get_selection_with_reg(data, neighbors_dist, cluster_labels, num_centroids, 
         cluster_labels, num_classes=final_sample_num)
     for _ in tqdm(range(iters)):
         selected_inds = []
+        selected_scores = []
         for cls_ind in range(num_centroids):
             if len(selected_inds) == final_sample_num:
                 break
@@ -83,9 +84,15 @@ def get_selection_with_reg(data, neighbors_dist, cluster_labels, num_centroids, 
                 w * selection_regularizer[match_arr]
             min_dist_ind = scores.argmax()
             selected_inds.append(match[min_dist_ind])
+            selected_scores.append(scores[min_dist_ind])
 
         selected_inds = np.array(selected_inds)
         selected_data = data[selected_inds]
+        selected_scores = np.array(selected_scores)
+        zipped = zip(selected_inds, selected_scores)
+        sort_zipped = sorted(zipped, key=lambda x: (x[1], x[0]), reverse = True)
+        result = zip(*sort_zipped)
+        selected_inds, selected_scores = [list(x) for x in result]
         # This is square distances: (N_full, N_selected)
         # data: (N_full, 1, dim)
         # selected_data: (1, N_selected, dim)
