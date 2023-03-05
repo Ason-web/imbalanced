@@ -127,7 +127,7 @@ def get_selection_with_reg(data, neighbors_dist, cluster_labels, num_centroids, 
 
     assert len(
         selected_inds) == final_sample_num, f"{len(selected_inds)} != {final_sample_num}"
-    return selected_inds
+    return selected_inds, selected_scores
 
 
 class GaussianBlur(object):
