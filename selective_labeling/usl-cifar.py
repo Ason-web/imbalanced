@@ -81,7 +81,7 @@ for kMeans_seed in cfg.USL.SEEDS:
                                                  recompute=recompute_num_dependent, seed=kMeans_seed, force_no_lazy_tensor=force_no_lazy_tensor)
 
     print_b("Getting selections with regularization")
-    selected_inds = utils.get_selection(utils.get_selection_with_reg, feats_list, neighbors_dist, cluster_labels, num_centroids, final_sample_num=final_sample_num, iters=cfg.USL.REG.NITERS, w=cfg.USL.REG.W,
+    selected_inds, selected_scores = utils.get_selection(utils.get_selection_with_reg, feats_list, neighbors_dist, cluster_labels, num_centroids, final_sample_num=final_sample_num, iters=cfg.USL.REG.NITERS, w=cfg.USL.REG.W,
                                         momentum=cfg.USL.REG.MOMENTUM, horizon_dist=cfg.USL.REG.HORIZON_DIST, alpha=cfg.USL.REG.ALPHA, verbose=True, seed=kMeans_seed, recompute=recompute_num_dependent, save=True)
 
     counts = np.bincount(np.array(train_memory_dataset.targets)[selected_inds])
@@ -94,4 +94,15 @@ for kMeans_seed in cfg.USL.SEEDS:
     print("Number of selected indices:", len(selected_inds))
     print("Selected IDs:")
     print(repr(selected_inds))
+    print("Selected class:")
     print(np.array(train_memory_dataset.targets)[selected_inds])
+    print("Selected scores:")
+    print(selected_scores)
+    
+    """
+    target_distribution = [4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+    print("Selected balanced dataset:")
+    selected_balance = utils.createImbIdxs(np.array(train_memory_dataset.targets)[selected_inds], target_distribution)
+    selected_balance_inds = [selected_inds[selected_balance[i]] for i in range(len(selected_balance))]
+    print(selected_balance_inds)
+    """
